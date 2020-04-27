@@ -1,40 +1,24 @@
 package it.formarete.mvc.decorator;
 
 import it.formarete.mvc.Model;
-import it.formarete.mvc.Observer;
-import java.util.ArrayList;
-import java.util.List;
+import it.formarete.mvc.Observable;
 
-public class ObservableDecorator implements Model {
+public class ObservableDecorator extends Observable implements Model {
 
-	private List<Observer> observers;
-	private Model decorated;
+    private Model decorated;
 
-	public ObservableDecorator(Model decorated) {
-		this.decorated = decorated;
-	}
+    public ObservableDecorator(Model decorated) {
+        this.decorated = decorated;
+    }
 
-	public void addObserver(Observer observer) {
-		if (observers == null) {
-			observers = new ArrayList<Observer>();
-		}
-		observers.add(observer);
-	}
+    @Override
+    public String getAttribute() {
+        return decorated.getAttribute();
+    }
 
-	public void publish(String attribute) {
-		for (Observer observer : observers) {
-			observer.wakeUp(attribute);
-		}
-	}
-
-	@Override
-	public String getAttribute() {
-		return decorated.getAttribute();
-	}
-
-	@Override
-	public void setAttribute(String attribute) {
-		decorated.setAttribute(attribute);
-		publish(attribute);
-	}
+    @Override
+    public void setAttribute(String attribute) {
+        decorated.setAttribute(attribute);
+        publish(attribute);
+    }
 }

@@ -1,74 +1,81 @@
 package it.formarete.todos.action;
 
+import static com.opensymphony.xwork2.Action.SUCCESS;
+import com.opensymphony.xwork2.ActionSupport;
 import it.formarete.todos.model.Todo;
 import it.formarete.todos.service.TodosDB;
 
 import java.util.List;
 
-import com.opensymphony.xwork2.ActionSupport;
-
 public class Todos extends ActionSupport {
 
-	private static final long serialVersionUID = -1224483568541819071L;
+    private static final long serialVersionUID = -1224483568541819071L;
 
-	private final TodosDB db = TodosDB.getInstance();
-	private Integer id;
-	private String title;
+    private final TodosDB db = TodosDB.getInstance();
+    private Integer id;
+    private String title;
 
-	public Integer getId() {
-		return id;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public String getTitle() {
-		return title;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	public List<Todo> getTodos() {
-		return db.getAll();
-	}
+    public List<Todo> getTodos() {
+        return db.getAll();
+    }
 
-	@Override
-	public String execute() {
-		id = null;
-		title = null;
-		return SUCCESS;
-	}
+    @Override
+    public void validate() {
+        if (title == null) {
+            addFieldError(title, "title cannot be empty");
+        }
+    }
 
-	public String submit() {
-		return id == null ? create() : update();
-	}
+    @Override
+    public String execute() {
+        id = null;
+        title = null;
+        return SUCCESS;
+    }
 
-	public String create() {
-		db.create(title);
-		return execute();
-	}
+    public String submit() {
+        return id == null ? create() : update();
+    }
 
-	public String update() {
-		db.update(id, title);
-		return execute();
-	}
+    public String create() {
+        db.create(title);
+        return execute();
+    }
 
-	public String edit() {
-		Todo todo = db.get(id);
-		title = todo.getTitle();
-		return SUCCESS;
-	}
+    public String update() {
+        db.update(id, title);
+        return execute();
+    }
 
-	public String delete() {
-		db.delete(id);
-		return execute();
-	}
+    public String edit() {
+        Todo todo = db.get(id);
+        title = todo.getTitle();
+        return SUCCESS;
+    }
 
-	public String clear() {
-		db.clear();
-		return execute();
-	}
+    public String delete() {
+        db.delete(id);
+        return execute();
+    }
+
+    public String clear() {
+        db.clear();
+        return execute();
+    }
 }

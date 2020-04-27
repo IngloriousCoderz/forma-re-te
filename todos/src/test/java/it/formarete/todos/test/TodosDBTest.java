@@ -16,6 +16,7 @@ public class TodosDBTest {
 
 	@Test
 	public void testGet() {
+            // given
 		assertEquals("Learn Struts", db.get(1).getTitle());
 	}
 
