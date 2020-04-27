@@ -1,4 +1,4 @@
-# FormaReTe
+# forma-re-te
 
 An Eclipse/NetBeans workspace used as teaching material for a course I'm teaching about Servlets, JSPs, Struts2, Hibernate and Spring with Maven.
 
